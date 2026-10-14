@@ -1,32 +1,31 @@
 # SOC Log Analyzer 🔐
 
-Projeto educacional desenvolvido em Python para praticar conceitos de análise de logs e cibersegurança, com foco nas atividades de um analista SOC (*Security Operations Center*).
+Analisador de logs de autenticação desenvolvido em Python para identificar atividades suspeitas, contabilizar tentativas de login e gerar alertas com base em regras simples de segurança.
 
 ## 🎯 Objetivo
 
-Desenvolver uma ferramenta capaz de analisar registros de autenticação, contabilizar falhas de login e identificar endereços IP que apresentam atividades potencialmente suspeitas.
+Este projeto tem como objetivo praticar conceitos de Python e análise de logs utilizados na rotina de um Analista SOC (Security Operations Center).
 
-## 🚀 Funcionalidades
+## ⚙️ Funcionalidades
 
-- [x] Ler registros de autenticação a partir de um arquivo.
-- [x] Percorrer os registros linha por linha.
-- [x] Identificar tentativas de autenticação malsucedidas.
-- [x] Contabilizar o total de falhas de autenticação.
-- [x] Contar automaticamente as falhas por endereço IP.
-- [x] Identificar o IP com a maior quantidade de falhas.
-- [x] Exibir as estatísticas no terminal.
-- [ ] Identificar possíveis padrões de força bruta (*brute force*).
-- [ ] Gerar relatórios de análise em arquivos `.txt`.
-- [ ] Melhorar o tratamento de erros e a validação dos registros.
+- Leitura de arquivos de log de autenticação.
+- Contagem de falhas e sucessos de login.
+- Contabilização de tentativas por endereço IP.
+- Identificação do IP com maior número de falhas.
+- Registro da primeira e da última falha por IP.
+- Identificação de IPs que ultrapassam o limite configurado de falhas.
+- Ordenação dos IPs suspeitos pelo número de falhas.
+- Exibição da quantidade de logins bem-sucedidos por IP.
+- Tratamento de linhas malformadas e ausência de falhas registradas.
 
-## 🛠️ Tecnologias
+## 🛠️ Tecnologias utilizadas
 
-- **Python 3** — lógica e análise dos registros.
-- **Git** — controle de versão.
-- **GitHub** — hospedagem e documentação do projeto.
-- **Visual Studio Code** — ambiente de desenvolvimento.
+- Python 3
+- Git
+- GitHub
+- Visual Studio Code
 
-## 📁 Estrutura do projeto
+## 📂 Estrutura do projeto
 
 ```text
 soc-log-analyzer/
@@ -39,45 +38,64 @@ soc-log-analyzer/
 └── README.md
 ```
 
-## ▶️ Como executar
+## 🚀 Como executar
 
 1. Instale o Python 3.
-2. Clone este repositório.
-3. Abra a pasta do projeto no Visual Studio Code.
-4. Verifique se o arquivo `logs/auth.log` existe e contém registros de teste.
-5. Abra o terminal na pasta principal do projeto.
-6. Execute:
+2. Clone o repositório:
+
+```bash
+git clone https://github.com/SOCReis/soc-log-analyzer.git
+```
+
+3. Entre na pasta do projeto:
+
+```bash
+cd soc-log-analyzer
+```
+
+4. Execute o analisador:
 
 ```bash
 python src/analisador.py
 ```
 
-O programa exibirá o total de falhas de autenticação, a quantidade de falhas por IP e o endereço IP com o maior número de falhas.
+## 🚨 Regra de detecção
 
-## 🧠 Conceitos praticados
+O projeto utiliza um limite configurável para identificar endereços IP com muitas falhas de autenticação.
 
-- Variáveis e contadores.
-- Estruturas condicionais (`if`).
-- Laços de repetição (`for`).
-- Leitura de arquivos com `open()`.
-- Manipulação de strings com `split()` e `replace()`.
-- Dicionários (`dict`) e o método `.get()`.
-- Funções nativas como `max()`.
-- Formatação de mensagens com f-strings.
-- Fundamentos de análise de logs e investigação de atividades suspeitas.
+```python
+LIMITE_FALHAS = 10
+```
 
-## 🔐 Aplicação em cibersegurança
+IPs com mais de 10 falhas são exibidos como suspeitos, ordenados pela quantidade de tentativas.
 
-A ferramenta simula uma tarefa inicial de um analista SOC: examinar registros de autenticação e identificar endereços IP com um volume elevado de falhas.
+**Importante:** ultrapassar esse limite não confirma um ataque. Os resultados devem ser investigados considerando o contexto e outros registros de segurança.
 
-Muitas tentativas malsucedidas podem indicar uma possível tentativa de força bruta, mas não comprovam, isoladamente, que houve um ataque. É necessário analisar outros eventos e informações de contexto.
+## 📚 Conceitos praticados
+
+- Manipulação de arquivos com `open()`.
+- Estruturas de dados: dicionários, listas e tuplas.
+- Contadores com `Counter`.
+- Valores padrão com `defaultdict`.
+- Laços `for` e condições `if`.
+- List comprehension.
+- Ordenação com `sorted()` e `lambda`.
+- Análise e correlação básica de eventos de autenticação.
+
+## 🔮 Próximas melhorias
+
+- Detectar sequências de falhas seguidas de login bem-sucedido.
+- Identificar tentativas de força bruta dentro de intervalos de tempo.
+- Gerar relatórios em arquivos.
+- Adicionar testes automatizados.
+- Melhorar a classificação dos eventos suspeitos.
 
 ## ⚠️ Aviso
 
-Este projeto tem finalidade exclusivamente educacional. Utilize registros fictícios ou dados que você tenha autorização para analisar. Os resultados são indicadores para investigação, não provas definitivas de comprometimento.
+Projeto educacional desenvolvido para praticar análise de logs e fundamentos de cibersegurança. Utilize logs fictícios ou dados que você tenha autorização para analisar.
 
-## 👨‍💻 Autor
+---
 
-**Samuel Reis**
+**Autor:** Samuel Reis
 
-Projeto desenvolvido como parte dos estudos de Python e cibersegurança, com foco na preparação para a área de análise SOC.
+**Área de estudo:** Cibersegurança | Análise SOC
