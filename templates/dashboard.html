@@ -1,0 +1,28 @@
+<h1>Dashboard</h1>
+<p>Total de IPs: {{ dados[5] }}</p>
+<p>Sucessos: {{ dados[4] }}</p>
+<p>Total de falhas: {{ dados[3] }}</p>
+<h2>Falhas por IP</h2>
+<ul>
+{% for ip, quantidade in dados[0].items() %}
+    <li>{{ ip }} - {{ quantidade }} falhas</li>
+{% endfor %}
+</ul>
+<h2>Sucessos por IP</h2>
+<ul>
+{% for ip, quantidade in dados[1].items() %}
+    <li>{{ ip }} - {{ quantidade }} sucessos</li>
+{% endfor %}
+</ul>
+
+<h2>Período por IP</h2>
+
+<ul>
+    {% for ip, periodo in dados[2].items() %}
+        <li>
+            <strong>{{ ip }}</strong><br>
+            Primeira tentativa: {{ periodo["primeiro"] }}<br>
+            Última tentativa: {{ periodo["ultimo"] }}
+        </li>
+    {% endfor %}
+</ul>

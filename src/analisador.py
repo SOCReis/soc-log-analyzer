@@ -2,37 +2,39 @@ from collections import Counter, defaultdict
 
 ARQUIVO_LOG = "logs/auth.log"
 LIMITE_FALHAS = 10  
+def analisar_log():
+    falhas_por_ip = Counter()          
+    sucessos_por_ip = Counter()        
+    periodo_por_ip = defaultdict(lambda: {"primeiro": None, "ultimo": None})
+    total_ips = 0
+    total_falhas = 0
+    total_sucessos = 0
+    with open(ARQUIVO_LOG, "r") as arquivo:
+        for linha in arquivo:
+            partes = linha.split()
+            if len(partes) < 3:
+                continue
 
-falhas_por_ip = Counter()          
-sucessos_por_ip = Counter()        
-periodo_por_ip = defaultdict(lambda: {"primeiro": None, "ultimo": None})
-total_ips = 0
-total_falhas = 0
-total_sucessos = 0
+            data, horario = partes[0], partes[1]
+            ip = partes[2].replace("IP=", "")
 
-with open(ARQUIVO_LOG, "r") as arquivo:
-    for linha in arquivo:
-        partes = linha.split()
-        if len(partes) < 3:
-            continue
+            if "status=failed" in linha:
+                falhas_por_ip[ip] += 1
+                total_falhas += 1
+                total_ips += 1
 
-        data, horario = partes[0], partes[1]
-        ip = partes[2].replace("IP=", "")
+                if periodo_por_ip[ip]["primeiro"] is None:
+                    periodo_por_ip[ip]["primeiro"] = (data, horario)
+                periodo_por_ip[ip]["ultimo"] = (data, horario)
 
-        if "status=failed" in linha:
-            falhas_por_ip[ip] += 1
-            total_falhas += 1
-            total_ips += 1
+            elif "status=success" in linha:
+                sucessos_por_ip[ip] += 1
+                total_sucessos += 1
+                total_ips += 1
+    return (falhas_por_ip, sucessos_por_ip, periodo_por_ip, total_falhas, total_sucessos, total_ips)
 
-            if periodo_por_ip[ip]["primeiro"] is None:
-                periodo_por_ip[ip]["primeiro"] = (data, horario)
-            periodo_por_ip[ip]["ultimo"] = (data, horario)
-
-        elif "status=success" in linha:
-            sucessos_por_ip[ip] += 1
-            total_sucessos += 1
-            total_ips += 1
-
+dados = analisar_log()
+falhas_por_ip, sucessos_por_ip, periodo_por_ip, total_falhas, total_sucessos, total_ips = dados
 
 if not falhas_por_ip:
     print("Nenhuma falha de autenticação registrada.")
