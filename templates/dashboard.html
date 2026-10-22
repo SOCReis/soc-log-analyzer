@@ -1,28 +1,122 @@
-<h1>Dashboard</h1>
-<p>Total de IPs: {{ dados[5] }}</p>
-<p>Sucessos: {{ dados[4] }}</p>
-<p>Total de falhas: {{ dados[3] }}</p>
-<h2>Falhas por IP</h2>
-<ul>
-{% for ip, quantidade in dados[0].items() %}
-    <li>{{ ip }} - {{ quantidade }} falhas</li>
-{% endfor %}
-</ul>
-<h2>Sucessos por IP</h2>
-<ul>
-{% for ip, quantidade in dados[1].items() %}
-    <li>{{ ip }} - {{ quantidade }} sucessos</li>
-{% endfor %}
-</ul>
 
-<h2>Período por IP</h2>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOC | Monitoramento</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 
-<ul>
-    {% for ip, periodo in dados[2].items() %}
-        <li>
-            <strong>{{ ip }}</strong><br>
-            Primeira tentativa: {{ periodo["primeiro"] }}<br>
-            Última tentativa: {{ periodo["ultimo"] }}
-        </li>
-    {% endfor %}
-</ul>
+    <header class="topbar">
+        <h1>SOC <span>/</span> Log Analyzer</h1>
+        <p>Monitoramento de autenticação</p>
+    </header>
+
+    <main>
+        <section class="resumo">
+            <div class="card">
+                <p>Total de IPs</p>
+                <h2>{{ dados[5] }}</h2>
+            </div>
+
+            <div class="card">
+                <p>Autenticações bem-sucedidas</p>
+                <h2 class="verde">{{ dados[4] }}</h2>
+            </div>
+
+            <div class="card">
+                <p>Falhas de autenticação</p>
+                <h2 class="vermelho">{{ dados[3] }}</h2>
+            </div>
+        </section>
+
+        <section class="painel-grid">
+            <div class="painel">
+                <h3>Falhas por IP</h3>
+
+                <div class="lista-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Endereço IP</th>
+                                <th>Falhas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ip, quantidade in dados[0].items() %}
+                            <tr>
+                                <td>{{ ip }}</td>
+                                <td class="vermelho">{{ quantidade }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="2">Nenhuma falha encontrada.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="painel">
+                <h3>Sucessos por IP</h3>
+
+                <div class="lista-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Endereço IP</th>
+                                <th>Sucessos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ip, quantidade in dados[1].items() %}
+                            <tr>
+                                <td>{{ ip }}</td>
+                                <td class="verde">{{ quantidade }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="2">Nenhum sucesso encontrado.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="painel painel-periodo">
+                <h3>Período de atividade por IP</h3>
+
+                <div class="lista-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Endereço IP</th>
+                                <th>Primeira tentativa</th>
+                                <th>Última tentativa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ip, periodo in dados[2].items() %}
+                            <tr>
+                                <td>{{ ip }}</td>
+                                <td>{{ periodo["primeiro"] }}</td>
+                                <td>{{ periodo["ultimo"] }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3">Nenhum período disponível.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

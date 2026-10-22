@@ -1,41 +1,44 @@
-# 🔐 SOC Log Analyzer
+# SOC Log Analyzer
 
-Analisador de logs de autenticação desenvolvido em Python, com o objetivo de simular tarefas iniciais de um analista de Security Operations Center (SOC).
+Analisador de logs de autenticação desenvolvido em Python para praticar conceitos de análise de eventos e investigação de atividades suspeitas em um ambiente SOC (Security Operations Center).
 
-O projeto processa registros de autenticação, identifica padrões de falhas de login e apresenta informações relevantes para auxiliar na investigação de atividades potencialmente suspeitas.
+O projeto lê registros de autenticação, organiza os eventos por endereço IP e apresenta informações sobre falhas e acessos bem-sucedidos. Os resultados podem ser visualizados em um dashboard web desenvolvido com Flask, HTML e CSS.
 
-Atualmente, o projeto também possui um dashboard web desenvolvido com Flask, HTML e Jinja.
+## Objetivos
 
-## 🎯 Objetivos
+- Praticar a leitura e análise de logs.
+- Identificar IPs com múltiplas falhas de autenticação.
+- Contabilizar sucessos e falhas de login.
+- Organizar eventos por endereço IP.
+- Registrar a primeira e a última ocorrência de cada IP.
+- Desenvolver um dashboard para facilitar a visualização dos resultados.
+- Aplicar conceitos de Python e desenvolvimento web em um projeto prático.
 
-- Praticar análise de logs de autenticação.
-- Identificar endereços IP com múltiplas falhas de login.
-- Organizar eventos de segurança por endereço IP.
-- Desenvolver uma interface para visualizar resultados.
-- Aprender conceitos utilizados em investigações SOC.
-
-## ⚙️ Funcionalidades
+## Funcionalidades
 
 - [x] Leitura de logs de autenticação.
-- [x] Contagem de falhas de login por IP.
+- [x] Contagem de falhas por IP.
 - [x] Contagem de autenticações bem-sucedidas por IP.
-- [x] Contabilização de falhas e sucessos.
+- [x] Contagem total de sucessos e falhas.
 - [x] Registro da primeira e última ocorrência por IP.
 - [x] Identificação do IP com maior número de falhas.
 - [x] Identificação de IPs acima do limite configurado de falhas.
-- [x] Integração inicial com Flask.
-- [x] Exibição de informações em HTML usando Jinja.
+- [x] Integração com Flask.
+- [x] Dashboard web com HTML e Jinja2.
+- [x] Estilização da interface com CSS.
+- [x] Exibição de listas e tabelas com rolagem para facilitar a visualização de muitos registros.
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 - Python
 - Flask
-- HTML
-- Jinja
+- HTML5
+- CSS3
+- Jinja2
 - Git e GitHub
 - Visual Studio Code
 
-## 📁 Estrutura do projeto
+## Estrutura do projeto
 
 ```text
 soc-log-analyzer/
@@ -46,12 +49,14 @@ soc-log-analyzer/
 │   └── app.py
 ├── templates/
 │   └── dashboard.html
+├── static/
+│   └── style.css
 ├── .gitignore
 ├── README.md
 └── requirements.txt
 ```
 
-## 🚀 Como executar
+## Como executar
 
 ### 1. Clonar o repositório
 
@@ -60,20 +65,26 @@ git clone URL_DO_SEU_REPOSITORIO
 cd soc-log-analyzer
 ```
 
-Substitua `URL_DO_SEU_REPOSITORIO` pelo endereço real do seu repositório GitHub.
+Substitua `URL_DO_SEU_REPOSITORIO` pelo endereço do seu repositório no GitHub.
 
-### 2. Criar um ambiente virtual
+### 2. Criar o ambiente virtual
 
 ```bash
 python -m venv .venv
 ```
 
-### 3. Ativar o ambiente virtual no Windows
+### 3. Ativar o ambiente virtual
 
-No CMD:
+No Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+No Prompt de Comando (CMD):
 
 ```cmd
-.venv\Scripts\activate
+.venv\Scripts\activate.bat
 ```
 
 ### 4. Instalar as dependências
@@ -84,39 +95,41 @@ python -m pip install -r requirements.txt
 
 ### 5. Iniciar o dashboard
 
-Execute a partir da pasta principal do projeto:
+Na pasta principal do projeto, execute:
 
 ```bash
 python src/app.py
 ```
 
-Depois, abra no navegador o endereço local informado pelo Flask, normalmente:
+Abra no navegador o endereço informado pelo Flask, normalmente:
 
 http://127.0.0.1:5000
 
-## 🔎 Exemplo de investigação
+## Exemplo de investigação
 
-O analisador pode encontrar um endereço IP com um número elevado de falhas de autenticação.
+O analisador pode identificar endereços IP com várias falhas de autenticação.
 
-Esse comportamento pode indicar uma tentativa de força bruta, mas precisa ser investigado antes de ser classificado como ataque confirmado.
+Esse comportamento pode indicar uma tentativa de força bruta, mas também pode ocorrer por erros legítimos de digitação ou configurações incorretas. Por isso, os resultados precisam ser investigados antes de classificar uma atividade como ataque.
 
-## 🗺️ Próximas implementações
+## Próximas melhorias
 
-- [ ] Corrigir e validar a contagem de IPs distintos.
+- [ ] Validar a contagem de endereços IP distintos.
 - [ ] Melhorar a organização dos dados retornados pelo analisador.
-- [ ] Criar uma tabela de IPs com falhas e sucessos.
-- [ ] Exibir os períodos de atividade por IP.
-- [ ] Destacar alertas de possíveis ataques no dashboard.
 - [ ] Adicionar filtros por IP e quantidade de falhas.
+- [ ] Ordenar os IPs pelo número de falhas.
+- [ ] Destacar possíveis atividades suspeitas no dashboard.
+- [ ] Implementar paginação para grandes volumes de registros.
 - [ ] Exportar relatórios em CSV e JSON.
 - [ ] Criar testes automatizados.
-- [ ] Melhorar o visual do dashboard.
+- [ ] Melhorar a análise de padrões de autenticação.
 
-## ⚠️ Aviso
+## Aviso
 
-Este projeto tem finalidade educacional e utiliza logs para estudar análise de eventos de segurança. Os alertas representam possíveis atividades suspeitas e não comprovam, isoladamente, a ocorrência de um ataque.
+Este projeto tem finalidade educacional. Os resultados indicam possíveis atividades suspeitas e não comprovam, isoladamente, a ocorrência de um ataque.
 
-## 👨‍💻 Autor
+Utilize logs de teste ou dados que você tenha autorização para analisar.
+
+## Autor
 
 Samuel Reis
 
