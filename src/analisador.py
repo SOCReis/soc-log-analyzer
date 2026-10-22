@@ -9,6 +9,7 @@ def analisar_log():
     total_ips = 0
     total_falhas = 0
     total_sucessos = 0
+    ips_distintos = set()
     with open(ARQUIVO_LOG, "r") as arquivo:
         for linha in arquivo:
             partes = linha.split()
@@ -17,11 +18,12 @@ def analisar_log():
 
             data, horario = partes[0], partes[1]
             ip = partes[2].replace("IP=", "")
+            ips_distintos.add(ip)
 
             if "status=failed" in linha:
                 falhas_por_ip[ip] += 1
                 total_falhas += 1
-                total_ips += 1
+                
 
                 if periodo_por_ip[ip]["primeiro"] is None:
                     periodo_por_ip[ip]["primeiro"] = (data, horario)
@@ -30,7 +32,8 @@ def analisar_log():
             elif "status=success" in linha:
                 sucessos_por_ip[ip] += 1
                 total_sucessos += 1
-                total_ips += 1
+                
+    total_ips = len(ips_distintos)
     return (falhas_por_ip, sucessos_por_ip, periodo_por_ip, total_falhas, total_sucessos, total_ips)
 
 dados = analisar_log()
