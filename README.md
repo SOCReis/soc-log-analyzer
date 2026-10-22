@@ -1,36 +1,39 @@
 # SOC Log Analyzer
 
-Analisador de logs de autenticação desenvolvido em Python para praticar conceitos de análise de eventos e investigação de atividades suspeitas em um ambiente SOC (Security Operations Center).
+Analisador de logs de autenticação desenvolvido em Python para praticar análise de eventos e investigação de atividades suspeitas em um ambiente SOC (Security Operations Center).
 
-O projeto lê registros de autenticação, organiza os eventos por endereço IP e apresenta informações sobre falhas e acessos bem-sucedidos. Os resultados podem ser visualizados em um dashboard web desenvolvido com Flask, HTML e CSS.
+O projeto lê registros de autenticação, agrupa falhas e acessos bem-sucedidos por endereço IP e identifica possíveis atividades suspeitas. Os resultados são apresentados no terminal e podem ser integrados a um dashboard web com Flask.
 
 ## Objetivos
 
 - Praticar a leitura e análise de logs.
 - Identificar IPs com múltiplas falhas de autenticação.
 - Contabilizar sucessos e falhas de login.
-- Organizar eventos por endereço IP.
-- Registrar a primeira e a última ocorrência de cada IP.
-- Desenvolver um dashboard para facilitar a visualização dos resultados.
-- Aplicar conceitos de Python e desenvolvimento web em um projeto prático.
+- Identificar endereços IP distintos.
+- Registrar a primeira e a última falha de autenticação por IP.
+- Identificar IPs com quantidade elevada de falhas.
+- Aplicar conceitos de Python e cibersegurança em um projeto prático.
 
 ## Funcionalidades
 
 - [x] Leitura de logs de autenticação.
 - [x] Contagem de falhas por IP.
 - [x] Contagem de autenticações bem-sucedidas por IP.
-- [x] Contagem total de sucessos e falhas.
-- [x] Registro da primeira e última ocorrência por IP.
+- [x] Contagem total de falhas e sucessos.
+- [x] Contagem de endereços IP distintos, sem duplicatas.
 - [x] Identificação do IP com maior número de falhas.
-- [x] Identificação de IPs acima do limite configurado de falhas.
-- [x] Integração com Flask.
-- [x] Dashboard web com HTML e Jinja2.
-- [x] Estilização da interface com CSS.
-- [x] Exibição de listas e tabelas com rolagem para facilitar a visualização de muitos registros.
+- [x] Exibição da primeira e da última falha do IP com mais falhas.
+- [x] Exibição da quantidade de sucessos do IP com mais falhas.
+- [x] Identificação de IPs com mais de 10 falhas.
+- [x] Ordenação dos IPs suspeitos pela quantidade de falhas.
+- [x] Exibição da quantidade de sucessos dos IPs suspeitos.
 
 ## Tecnologias
 
 - Python
+- `collections.Counter`
+- `collections.defaultdict`
+- Conjuntos (`set`)
 - Flask
 - HTML5
 - CSS3
@@ -93,39 +96,53 @@ No Prompt de Comando (CMD):
 python -m pip install -r requirements.txt
 ```
 
-### 5. Iniciar o dashboard
+### 5. Executar o analisador
 
 Na pasta principal do projeto, execute:
+
+```bash
+python src/analisador.py
+```
+
+O programa exibirá os totais de autenticações, a quantidade de IPs distintos e informações sobre os IPs com mais falhas.
+
+### 6. Iniciar o dashboard web
+
+Se o Flask estiver configurado no projeto, execute:
 
 ```bash
 python src/app.py
 ```
 
-Abra no navegador o endereço informado pelo Flask, normalmente:
+Depois, abra no navegador:
 
 http://127.0.0.1:5000
 
-## Exemplo de investigação
+## Como funciona a análise
 
-O analisador pode identificar endereços IP com várias falhas de autenticação.
+O analisador percorre o arquivo `logs/auth.log` e identifica o endereço IP de cada registro válido.
 
-Esse comportamento pode indicar uma tentativa de força bruta, mas também pode ocorrer por erros legítimos de digitação ou configurações incorretas. Por isso, os resultados precisam ser investigados antes de classificar uma atividade como ataque.
+Os dados são organizados em contadores de falhas e sucessos. Um conjunto (`set`) armazena os IPs sem repetições, permitindo calcular a quantidade de endereços distintos.
+
+O limite de falhas é definido pela variável `LIMITE_FALHAS`, configurada inicialmente como `10`. IPs com mais de 10 falhas são exibidos como possíveis suspeitos.
+
+A primeira e a última falha são registradas para cada IP que apresenta falhas de autenticação.
 
 ## Próximas melhorias
 
-- [ ] Validar a contagem de endereços IP distintos.
 - [ ] Melhorar a organização dos dados retornados pelo analisador.
 - [ ] Adicionar filtros por IP e quantidade de falhas.
-- [ ] Ordenar os IPs pelo número de falhas.
 - [ ] Destacar possíveis atividades suspeitas no dashboard.
 - [ ] Implementar paginação para grandes volumes de registros.
 - [ ] Exportar relatórios em CSV e JSON.
 - [ ] Criar testes automatizados.
 - [ ] Melhorar a análise de padrões de autenticação.
+- [ ] Registrar a primeira e a última ocorrência de todos os eventos por IP.
+- [ ] Tratar erros de leitura e arquivos de log inexistentes.
 
 ## Aviso
 
-Este projeto tem finalidade educacional. Os resultados indicam possíveis atividades suspeitas e não comprovam, isoladamente, a ocorrência de um ataque.
+Este projeto tem finalidade educacional. A presença de várias falhas de autenticação pode indicar uma tentativa de força bruta, mas não comprova, isoladamente, a ocorrência de um ataque.
 
 Utilize logs de teste ou dados que você tenha autorização para analisar.
 
