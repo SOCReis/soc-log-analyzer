@@ -128,18 +128,6 @@ O limite de falhas é definido pela variável `LIMITE_FALHAS`, configurada inici
 
 A primeira e a última falha são registradas para cada IP que apresenta falhas de autenticação.
 
-## Próximas melhorias
-
-- [ ] Melhorar a organização dos dados retornados pelo analisador.
-- [ ] Adicionar filtros por IP e quantidade de falhas.
-- [ ] Destacar possíveis atividades suspeitas no dashboard.
-- [ ] Implementar paginação para grandes volumes de registros.
-- [ ] Exportar relatórios em CSV e JSON.
-- [ ] Criar testes automatizados.
-- [ ] Melhorar a análise de padrões de autenticação.
-- [ ] Registrar a primeira e a última ocorrência de todos os eventos por IP.
-- [ ] Tratar erros de leitura e arquivos de log inexistentes.
-
 ## Aviso
 
 Este projeto tem finalidade educacional. A presença de várias falhas de autenticação pode indicar uma tentativa de força bruta, mas não comprova, isoladamente, a ocorrência de um ataque.
